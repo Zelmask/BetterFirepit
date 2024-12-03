@@ -4,7 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <FileVersion>1.1.4</FileVersion>
+    <FileVersion>1.1.5</FileVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
@@ -18,15 +18,15 @@
 
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>E:\Games\Vintagestory\Lib\0Harmony.dll</HintPath>
+      <HintPath>..\GameDlls\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VintagestoryAPI">
-      <HintPath>E:\Games\Vintagestory\VintagestoryAPI.dll</HintPath>
+      <HintPath>..\GameDlls\VintagestoryAPI.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="VSSurvivalMod">
-      <HintPath>E:\Games\Vintagestory\Mods\VSSurvivalMod.dll</HintPath>
+      <HintPath>..\GameDlls\VSSurvivalMod.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
@@ -41,11 +41,11 @@
   </ItemGroup>
 
   <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
-    <Exec Command="if not exist $(SolutionDir)PublishOutput mkdir $(SolutionDir)PublishOutput" />
+    <Exec Command="mkdir -p $(SolutionDir)PublishOutput" />
   </Target>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="if $(ConfigurationName) == Release (powershell Compress-Archive -Path $(TargetDir)* -DestinationPath $(SolutionDir)PublishOutput\BetterFirepit-$(FileVersion).zip -Force)" />
+    <Exec Command="if [ '$(ConfigurationName)' = 'Release' ]; then zip -r $(SolutionDir)PublishOutput/BetterFirepit-$(FileVersion).zip -j $(TargetDir)publish/*; fi" />
   </Target>
 
 </Project>
